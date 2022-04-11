@@ -11,15 +11,46 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  ValueNotifier<String> pressedKey = ValueNotifier<String>("");
-
   List<int> rows = [0, 1, 2, 3, 4, 5];
 
   int currentRow = 0;
+  int currentIndex = 0;
 
   String word = "VASCO";
 
-  void _insertLetter(String key) {}
+  List<String> currentGuess = ["", "", "", "", ""];
+
+  void _insertCharacter(String key) {
+    if (currentIndex <= 4) {
+      setState(() {
+        currentGuess[currentIndex] = key;
+        currentIndex++;
+      });
+    }
+    print(currentGuess.join());
+  }
+
+  void _deleteLastCharacter() {
+    if (currentIndex > 0) {
+      setState(() {
+        currentGuess[currentIndex - 1] = "";
+        currentIndex--;
+      });
+    }
+    print(currentGuess.join());
+  }
+
+  void _checkGuess() {
+    if (currentGuess.join().length == 5) {
+      if (currentGuess.join() == word) {
+        print("Right guess!");
+      } else {
+        print("Wrong guess!");
+      }
+    } else {
+      print("Incomplete");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,22 +64,19 @@ class _HomePageState extends State<HomePage> {
               ...rows.map((row) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: WordRow(rowIndex: row, isActive: currentRow == row),
+                  child: WordRow(
+                    rowIndex: row,
+                    boxIndex: currentIndex,
+                    isActive: currentRow == row,
+                    currentGuess: currentGuess,
+                  ),
                 );
               }).toList(),
               const SizedBox(height: 70.0),
-              // TODO: handle each key press
               Keyboard(
-                onTextInput: (text) {
-                  print(text);
-                  _insertLetter(text);
-                },
-                onBackspace: () {
-                  print("Backspace");
-                },
-                onEnter: () {
-                  print("Enter");
-                },
+                onTextInput: (text) => _insertCharacter(text),
+                onBackspace: () => _deleteLastCharacter(),
+                onEnter: () => _checkGuess(),
               ),
             ],
           ),
