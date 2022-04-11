@@ -19,6 +19,8 @@ class _HomePageState extends State<HomePage> {
 
   String word = "VASCO";
 
+  void _insertLetter(String key) {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,6 +41,7 @@ class _HomePageState extends State<HomePage> {
               Keyboard(
                 onTextInput: (text) {
                   print(text);
+                  _insertLetter(text);
                 },
                 onBackspace: () {
                   print("Backspace");

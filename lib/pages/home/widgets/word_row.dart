@@ -36,6 +36,7 @@ class _WordRowState extends State<WordRow> {
               child: LetterBox(
                 boxIndex: box,
                 isSelected: box == currentBox && widget.isActive!,
+                onChanged: () {},
               ),
               onTap: () {
                 setState(() => currentBox = box);

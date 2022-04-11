@@ -4,11 +4,13 @@ class LetterBox extends StatefulWidget {
   int boxIndex;
   bool isSelected;
   String? value;
+  Function onChanged;
   LetterBox({
     Key? key,
     this.isSelected = false,
     this.value,
     required this.boxIndex,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
