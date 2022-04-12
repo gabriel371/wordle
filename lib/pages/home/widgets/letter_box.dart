@@ -4,13 +4,13 @@ class LetterBox extends StatefulWidget {
   int boxIndex;
   bool isSelected;
   String? value;
-  Function onChanged;
+  Color color;
   LetterBox({
     Key? key,
     this.isSelected = false,
     this.value,
     required this.boxIndex,
-    required this.onChanged,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -28,6 +28,7 @@ class _LetterBoxState extends State<LetterBox> {
           color: const Color(0xFF000000),
           width: widget.isSelected ? 4.0 : 2.0,
         ),
+        color: widget.color,
       ),
       child: Visibility(
         visible: widget.value != null,

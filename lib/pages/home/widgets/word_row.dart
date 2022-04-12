@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../home_page.dart';
 import 'letter_box.dart';
 
 class WordRow extends StatefulWidget {
@@ -7,12 +8,16 @@ class WordRow extends StatefulWidget {
   int boxIndex;
   bool isActive;
   List<String> currentGuess;
+  List<GuessedCharacter> guessedChars;
+  List<Color> colors;
   WordRow({
     Key? key,
     required this.boxIndex,
     required this.rowIndex,
     this.isActive = false,
     required this.currentGuess,
+    required this.guessedChars,
+    required this.colors,
   }) : super(key: key);
 
   @override
@@ -25,14 +30,12 @@ class _WordRowState extends State<WordRow> {
   @override
   Widget build(BuildContext context) {
     int currentBox = widget.boxIndex;
-    String currentGuess = widget.currentGuess.join();
-    // print(currentGuess);
     return ColorFiltered(
       colorFilter: ColorFilter.mode(
         widget.isActive
             ? const Color(0xFFFFFFFF)
             : const Color.fromARGB(255, 236, 236, 236),
-        BlendMode.saturation,
+        BlendMode.overlay,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -41,8 +44,8 @@ class _WordRowState extends State<WordRow> {
             return LetterBox(
               boxIndex: box,
               isSelected: box == currentBox && widget.isActive,
-              onChanged: () {},
-              value: widget.isActive ? widget.currentGuess[box] : "",
+              value: widget.currentGuess[box],
+              color: widget.colors[box],
             );
           },
         ).toList(),

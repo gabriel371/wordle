@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wordle/pages/home/widgets/backspace_key.dart';
-import 'package:wordle/pages/home/widgets/enter_key.dart';
-import 'package:wordle/pages/home/widgets/text_key.dart';
 
-import 'keyboard_button.dart';
+import 'backspace_key.dart';
+import 'enter_key.dart';
+import 'text_key.dart';
 
 class Keyboard extends StatelessWidget {
   Keyboard({
@@ -11,7 +10,14 @@ class Keyboard extends StatelessWidget {
     required this.onTextInput,
     required this.onEnter,
     required this.onBackspace,
+    required this.guesses,
+    required this.word,
+    required this.currentRow,
   }) : super(key: key);
+
+  String word;
+  List<List<String>> guesses;
+  int currentRow;
 
   final ValueSetter<String> onTextInput;
   final VoidCallback onEnter;
@@ -27,8 +33,25 @@ class Keyboard extends StatelessWidget {
     ["Z", "X", "C", "V", "B", "N", "M"],
   ];
 
+  Color _getColor(String key) {
+    // FIXME: The green one needs to compare each position
+    if (guesses.any((element) => element == word.split(""))) {
+      return Colors.green;
+    }
+    if (guesses.any((element) => element.contains(key)) &&
+        word.split("").contains(key)) {
+      return Colors.yellow;
+    }
+    if (guesses.any((element) => element.contains(key)) &&
+        !word.split("").contains(key)) {
+      return Colors.red;
+    }
+    return Colors.white;
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(guesses);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
@@ -51,7 +74,11 @@ class Keyboard extends StatelessWidget {
           .map((i, key) {
             return MapEntry(
               i,
-              TextKey(text: key, onTextInput: _textInputHandler),
+              TextKey(
+                text: key,
+                onTextInput: _textInputHandler,
+                color: _getColor(key),
+              ),
             );
           })
           .values
@@ -69,7 +96,12 @@ class Keyboard extends StatelessWidget {
             .map((i, key) {
               return MapEntry(
                 i,
-                TextKey(text: key, onTextInput: _textInputHandler),
+                TextKey(
+                  text: key,
+                  onTextInput: _textInputHandler,
+                  color: _getColor(key),
+                  // color: _getColor(key),
+                ),
               );
             })
             .values
@@ -89,12 +121,16 @@ class Keyboard extends StatelessWidget {
             .map((i, key) {
               return MapEntry(
                 i,
-                TextKey(text: key, onTextInput: _textInputHandler),
+                TextKey(
+                  text: key,
+                  onTextInput: _textInputHandler,
+                  color: _getColor(key),
+                ),
               );
             })
             .values
             .toList(),
-        EnterKey(onEnter: _enterHandler),
+        EnterKey(onEnter: _enterHandler), // This can be used to get the colors
       ],
     );
   }
