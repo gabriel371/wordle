@@ -1,6 +1,6 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+
+import '../constants/api.dart';
 
 class APIService {
   static const String _authority = "random-words5.p.rapidapi.com";
@@ -8,7 +8,7 @@ class APIService {
   static const _query = {"wordLength": "5"};
   static const Map<String, String> _headers = {
     "x-rapidapi-host": "random-words5.p.rapidapi.com",
-    "x-rapidapi-key": "fd73af7d1dmsh7f85fddd3d10ebep19e543jsnab2d5f4a484a",
+    "x-rapidapi-key": kRandomWordsApi,
   };
 
   Future<String> get() async {

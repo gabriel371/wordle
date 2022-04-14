@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wordle/services/api_service.dart';
 
-import 'fail_dialog.dart';
-import 'success_dialog.dart';
+import 'widgets/fail_dialog.dart';
+import 'widgets/success_dialog.dart';
 import 'widgets/keyboard.dart';
 import 'widgets/word_row.dart';
 
@@ -91,7 +91,11 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (BuildContext context) {
-              return SuccessDialog(row: currentRow, word: word);
+              return SuccessDialog(
+                row: currentRow,
+                word: word,
+                guesses: guesses,
+              );
             },
           );
         } else {
@@ -100,7 +104,11 @@ class _HomePageState extends State<HomePage> {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                return FailDialog(row: currentRow, word: word);
+                return FailDialog(
+                  row: currentRow,
+                  word: word,
+                  guesses: guesses,
+                );
               },
             );
           }
@@ -116,7 +124,11 @@ class _HomePageState extends State<HomePage> {
           });
         }
       } else {
-        print("Incomplete");
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Not enough letters"),
+          ),
+        );
       }
     }
   }

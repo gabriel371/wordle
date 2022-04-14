@@ -34,15 +34,27 @@ class Keyboard extends StatelessWidget {
   ];
 
   Color _getColor(String key) {
-    // FIXME: The green one needs to compare each position
-    if (guesses.any((element) => element == word.split(""))) {
+    if (guesses.getRange(0, currentRow).any((element) =>
+            element[0] == key && element[0] == word.split("")[0]) ||
+        guesses.getRange(0, currentRow).any((element) =>
+            element[1] == key && element[1] == word.split("")[1]) ||
+        guesses.getRange(0, currentRow).any((element) =>
+            element[2] == key && element[2] == word.split("")[2]) ||
+        guesses.getRange(0, currentRow).any((element) =>
+            element[3] == key && element[3] == word.split("")[3]) ||
+        guesses.getRange(0, currentRow).any((element) =>
+            element[4] == key && element[4] == word.split("")[4])) {
       return Colors.green;
     }
-    if (guesses.any((element) => element.contains(key)) &&
+    if (guesses
+            .getRange(0, currentRow)
+            .any((element) => element.contains(key)) &&
         word.split("").contains(key)) {
       return Colors.yellow;
     }
-    if (guesses.any((element) => element.contains(key)) &&
+    if (guesses
+            .getRange(0, currentRow)
+            .any((element) => element.contains(key)) &&
         !word.split("").contains(key)) {
       return Colors.red;
     }
@@ -51,7 +63,6 @@ class Keyboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(guesses);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
