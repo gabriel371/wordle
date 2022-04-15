@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/colors.dart';
+
 class TextKey extends StatelessWidget {
   TextKey({
     Key? key,
     required this.text,
     this.onTextInput,
-    this.color = Colors.white,
+    this.color = kKeyboardTileBackgroundColor,
   }) : super(key: key);
 
   final String text;
@@ -18,7 +20,8 @@ class TextKey extends StatelessWidget {
       height: 40.0,
       width: 30.0,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF000000), width: 2.0),
+        borderRadius: BorderRadius.circular(3.0),
+        border: Border.all(color: kKeyboardTileBorderColor, width: 2.0),
         color: color,
       ),
       child: Material(
@@ -33,6 +36,7 @@ class TextKey extends StatelessWidget {
               style: const TextStyle(
                 fontWeight: FontWeight.w500,
                 fontSize: 18.0,
+                color: kTextColor,
               ),
             ),
           ),

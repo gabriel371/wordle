@@ -18,10 +18,9 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Wordle',
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.transparent,
-        primarySwatch: Colors.green,
+        brightness: Brightness.dark,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }

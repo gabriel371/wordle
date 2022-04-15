@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../home_page.dart';
+import '../../../constants/colors.dart';
+import '../../../enums/guessed_characters.dart';
 import 'letter_box.dart';
 
 class WordRow extends StatefulWidget {
@@ -30,25 +31,34 @@ class _WordRowState extends State<WordRow> {
   @override
   Widget build(BuildContext context) {
     int currentBox = widget.boxIndex;
-    return ColorFiltered(
-      colorFilter: ColorFilter.mode(
-        widget.isActive
-            ? const Color(0xFFFFFFFF)
-            : const Color.fromARGB(255, 236, 236, 236),
-        BlendMode.overlay,
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: boxes.map(
-          (box) {
-            return LetterBox(
-              boxIndex: box,
-              isSelected: box == currentBox && widget.isActive,
-              value: widget.currentGuess[box],
-              color: widget.colors[box],
-            );
-          },
-        ).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: Stack(
+        children: [
+          widget.isActive
+              ? Container()
+              : Container(
+                  width: double.infinity,
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: kDeactivatedColor,
+                  ),
+                ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: boxes.map(
+              (box) {
+                return LetterBox(
+                  boxIndex: box,
+                  isSelected: box == currentBox && widget.isActive,
+                  value: widget.currentGuess[box],
+                  color: widget.colors[box],
+                );
+              },
+            ).toList(),
+          ),
+        ],
       ),
     );
   }

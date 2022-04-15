@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/colors.dart';
+
 class EnterKey extends StatelessWidget {
   const EnterKey({
     Key? key,
@@ -14,14 +16,20 @@ class EnterKey extends StatelessWidget {
       height: 40.0,
       width: 45.0,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF000000), width: 2.0),
+        borderRadius: BorderRadius.circular(3.0),
+        border: Border.all(color: kKeyboardTileBorderColor, width: 2.0),
+        color: kKeyboardTileBackgroundColor,
       ),
       child: Material(
+        color: kKeyboardTileBackgroundColor,
         child: InkWell(
           onTap: () {
             onEnter.call();
           },
-          child: const Icon(Icons.check),
+          child: const Icon(
+            Icons.check,
+            color: kTextColor,
+          ),
         ),
       ),
     );

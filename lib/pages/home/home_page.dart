@@ -1,43 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:wordle/services/api_service.dart';
 
+import '../../constants/colors.dart';
+import '../../data/default_data.dart';
+import '../../enums/guessed_characters.dart';
+import '../../services/api_service.dart';
 import 'widgets/fail_dialog.dart';
-import 'widgets/success_dialog.dart';
+import 'widgets/header_title.dart';
 import 'widgets/keyboard.dart';
+import 'widgets/success_dialog.dart';
 import 'widgets/word_row.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  List<List<String>> guesses = [
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-    ["", "", "", "", ""],
-  ];
+  APIService apiService = APIService();
 
-  List<List<Color>> colors = [
-    [Colors.white, Colors.white, Colors.white, Colors.white, Colors.white],
-    [Colors.white, Colors.white, Colors.white, Colors.white, Colors.white],
-    [Colors.white, Colors.white, Colors.white, Colors.white, Colors.white],
-    [Colors.white, Colors.white, Colors.white, Colors.white, Colors.white],
-    [Colors.white, Colors.white, Colors.white, Colors.white, Colors.white],
-    [Colors.white, Colors.white, Colors.white, Colors.white, Colors.white],
-  ];
+  List<List<String>> guesses = defaultGuesses;
+  List<List<Color>> colors = defaultColors;
+  List<GuessedCharacter> guessedChars = defaultGuessedChars;
 
   int currentRow = 0;
   int currentIndex = 0;
   bool gameOver = false;
   String word = "";
-
-  APIService apiService = APIService();
 
   @override
   void initState() {
@@ -48,14 +38,6 @@ class _HomePageState extends State<HomePage> {
       });
     });
   }
-
-  List<GuessedCharacter> guessedChars = [
-    GuessedCharacter.empty,
-    GuessedCharacter.empty,
-    GuessedCharacter.empty,
-    GuessedCharacter.empty,
-    GuessedCharacter.empty,
-  ];
 
   void _insertCharacter(String key) {
     if (gameOver == false) {
@@ -85,7 +67,7 @@ class _HomePageState extends State<HomePage> {
         if (guesses[currentRow].join() == word) {
           for (int i = 0; i < 5; i++) {
             guessedChars[i] = _compareCharacters(i);
-            colors[currentRow][i] = _getColor(i);
+            colors[currentRow][i] = _getColor(i)!;
           }
           setState(() => gameOver = true);
           showDialog(
@@ -114,7 +96,7 @@ class _HomePageState extends State<HomePage> {
           }
           for (int i = 0; i < 5; i++) {
             guessedChars[i] = _compareCharacters(i);
-            colors[currentRow][i] = _getColor(i);
+            colors[currentRow][i] = _getColor(i)!;
           }
           setState(() {
             if (currentRow < 5) {
@@ -133,15 +115,15 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Color _getColor(int index) {
+  Color? _getColor(int index) {
     if (guessedChars[index] == GuessedCharacter.right) {
-      return Colors.green;
+      return kSuccessColor;
     } else if (guessedChars[index] == GuessedCharacter.present) {
-      return Colors.yellow;
+      return kPresentColor;
     } else if (guessedChars[index] == GuessedCharacter.wrong) {
-      return Colors.red;
+      return kWrongColor;
     } else {
-      return Colors.white;
+      return kTileBackgroundColor;
     }
   }
 
@@ -159,12 +141,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.only(top: 40.0),
+          padding: const EdgeInsets.only(top: 30.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const HeaderTitle(),
+              const SizedBox(height: 50.0),
               ...guesses
                   .asMap()
                   .map((i, row) {
@@ -185,7 +170,7 @@ class _HomePageState extends State<HomePage> {
                   })
                   .values
                   .toList(),
-              const SizedBox(height: 70.0),
+              const SizedBox(height: 40.0),
               Keyboard(
                 onTextInput: (text) => _insertCharacter(text),
                 onBackspace: () => _deleteLastCharacter(),
@@ -201,5 +186,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-enum GuessedCharacter { empty, right, wrong, present }

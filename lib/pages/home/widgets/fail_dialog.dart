@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/colors.dart';
+
 class FailDialog extends StatelessWidget {
   int row;
   String word;
@@ -14,23 +16,25 @@ class FailDialog extends StatelessWidget {
 
   Color _getColor(int x, int y) {
     if (guesses[x][y] == word[y]) {
-      return Colors.green;
+      return kSuccessColor;
     } else if (guesses[x][y] != "" &&
         guesses[x][y] != word[y] &&
         word.contains(guesses[x][y])) {
-      return Colors.yellow;
+      return kPresentColor;
     } else {
-      return Colors.red;
+      return kWrongColor;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      backgroundColor: kBackgroundColor,
       title: const Text(
         "Oh no...",
         style: TextStyle(
-          color: Colors.red,
+          color: kWrongColor,
           fontSize: 30.0,
           fontWeight: FontWeight.w500,
         ),
@@ -42,7 +46,7 @@ class FailDialog extends StatelessWidget {
             textAlign: TextAlign.left,
             text: TextSpan(
               style: const TextStyle(
-                color: Colors.black,
+                color: kTextColor,
                 fontSize: 14.0,
               ),
               children: <TextSpan>[
@@ -59,7 +63,7 @@ class FailDialog extends StatelessWidget {
             textAlign: TextAlign.left,
             text: TextSpan(
               style: const TextStyle(
-                color: Colors.black,
+                color: kTextColor,
                 fontSize: 14.0,
               ),
               children: <TextSpan>[
@@ -91,7 +95,12 @@ class FailDialog extends StatelessWidget {
                                         margin: const EdgeInsets.all(2.0),
                                         height: 20.0,
                                         width: 20.0,
-                                        color: _getColor(rowIndex, letterIndex),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(3.0),
+                                          color:
+                                              _getColor(rowIndex, letterIndex),
+                                        ),
                                       )
                                     : Container(),
                               );

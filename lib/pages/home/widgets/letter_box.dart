@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../constants/colors.dart';
+
 class LetterBox extends StatefulWidget {
   int boxIndex;
   bool isSelected;
@@ -24,8 +26,9 @@ class _LetterBoxState extends State<LetterBox> {
       height: 50.0,
       width: 50.0,
       decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
         border: Border.all(
-          color: const Color(0xFF000000),
+          color: kTileBorderColor,
           width: widget.isSelected ? 4.0 : 2.0,
         ),
         color: widget.color,
@@ -36,7 +39,7 @@ class _LetterBoxState extends State<LetterBox> {
           child: Text(
             widget.value.toString(),
             style: const TextStyle(
-              color: Color(0xFF000000),
+              color: kTextColor,
               fontSize: 22.0,
               fontWeight: FontWeight.w600,
             ),

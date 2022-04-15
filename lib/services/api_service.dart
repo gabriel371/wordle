@@ -18,7 +18,8 @@ class APIService {
       return response.body;
     } else {
       throw Exception(
-          "Failed to load json data. Returned: ${response.statusCode}: ${response.reasonPhrase}");
+        "Failed to load json data. Returned: ${response.statusCode}: ${response.reasonPhrase}",
+      );
     }
   }
 }

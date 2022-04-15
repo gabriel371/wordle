@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/constants/colors.dart';
 
 import 'backspace_key.dart';
 import 'enter_key.dart';
@@ -44,21 +45,21 @@ class Keyboard extends StatelessWidget {
             element[3] == key && element[3] == word.split("")[3]) ||
         guesses.getRange(0, currentRow).any((element) =>
             element[4] == key && element[4] == word.split("")[4])) {
-      return Colors.green;
+      return kSuccessColor;
     }
     if (guesses
             .getRange(0, currentRow)
             .any((element) => element.contains(key)) &&
         word.split("").contains(key)) {
-      return Colors.yellow;
+      return kPresentColor;
     }
     if (guesses
             .getRange(0, currentRow)
             .any((element) => element.contains(key)) &&
         !word.split("").contains(key)) {
-      return Colors.red;
+      return kWrongColor;
     }
-    return Colors.white;
+    return kKeyboardTileBackgroundColor;
   }
 
   @override
