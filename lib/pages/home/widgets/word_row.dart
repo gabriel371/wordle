@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wordle/pages/home/widgets/flip_animation.dart';
 
 import '../../../constants/colors.dart';
 import '../../../enums/guessed_characters.dart';

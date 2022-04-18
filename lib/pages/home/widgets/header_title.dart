@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:wordle/constants/colors.dart';
 
 import '../../../data/default_data.dart';
 import 'title_box.dart';
@@ -22,7 +23,6 @@ class _HeaderTitleState extends State<HeaderTitle> {
 
   @override
   void initState() {
-    print(titleGuesses.length.toString() + ":" + titleColors.length.toString());
     super.initState();
     Timer.periodic(const Duration(seconds: 1), (timer) {
       setState(() {
@@ -39,24 +39,55 @@ class _HeaderTitleState extends State<HeaderTitle> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 75.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: titleGuesses[counter]
-            .asMap()
-            .map((i, letter) {
-              return MapEntry(
-                i,
-                TitleBox(
-                  text: letter,
-                  color: titleColors[counter][i],
-                ),
-              );
-            })
-            .values
-            .toList(),
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        IconButton(
+          splashRadius: 20.0,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return const Dialog(backgroundColor: kBackgroundColor);
+              },
+            );
+          },
+          icon: const Icon(
+            Icons.help_outline_outlined,
+            color: kTextColor,
+          ),
+        ),
+        Row(
+          children: titleGuesses[counter]
+              .asMap()
+              .map((i, letter) {
+                return MapEntry(
+                  i,
+                  TitleBox(
+                    text: letter,
+                    color: titleColors[counter][i],
+                  ),
+                );
+              })
+              .values
+              .toList(),
+        ),
+        IconButton(
+          splashRadius: 20.0,
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return const Dialog(backgroundColor: kBackgroundColor);
+              },
+            );
+          },
+          icon: const Icon(
+            Icons.history,
+            color: kTextColor,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -14,6 +14,7 @@ class TitleBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 2.5),
       height: 30.0,
       width: 30.0,
       decoration: BoxDecoration(
